@@ -1,0 +1,87 @@
+# ============================================
+#  Game-wide configuration — no code required.
+#  Plugins, path aliases, actors, command defaults and command macros live here.
+# ============================================
+
+[game]
+title = "NilVN Demo"
+entry = "story.nvn"   # entry script; start() loads it automatically
+textSpeed = 40        # typewriter speed in characters per second
+defaultLang = "en"    # default language; the multi-language text lives in catalogs.json and the menu switches it
+
+[plugins]
+use = ["screenfx", "textfx", "charfx", "choicefx", "voicefx", "spriteanim", "plugins/glitch.js", "plugins/ending.js"]
+
+# Path prefix aliases, usable in every resource path
+[path]
+"@bg" = "assets/bg"
+"@char" = "assets/char"
+"@bgm" = "assets/bgm"
+"@se" = "assets/se"
+"@fx" = "assets/fx"
+
+# ---- Actors ----
+# voice = base pitch (Hz) of the typing blip: higher sounds cuter, lower sounds calmer
+[actors.yuki]
+nameKey = "actor.yuki"
+color = "#ff7eb6"
+sprites = "@char/yuki-{face}.svg"
+voice = 360
+
+[actors.rin]
+nameKey = "actor.rin"
+color = "#6ec3ff"
+sprites = "@char/rin-{face}.svg"
+voice = 230
+
+[actors.me]
+nameKey = "actor.me"
+color = "#8d77ff"
+voice = 290
+
+# ---- Default parameters for common commands (the script's own parameters win) ----
+[defaults]
+bg = { fade = 1.2 }
+char = { fade = 0.5 }
+fadeout = { duration = 1.0 }
+fadein = { duration = 1.0 }
+
+# ---- Command macros: the script writes a short tag such as [bg_street] or [quake] ----
+# A one-line macro accepts extra parameters: [bg_street fade=2] overrides the macro's own.
+# A multi-line macro is a sequence of commands run in order — picture and sound in one tag.
+[macros]
+"bg_street" = "bg @bg/street.svg"
+"bg_night" = "bg @bg/night.svg"
+"bg_classroom" = "bg @bg/classroom.svg"
+
+# BGM and sound effects
+"bgm_daily" = "bgm @bgm/daily.wav volume=0.45"
+"bgm_night" = "bgm @bgm/night.wav volume=0.5"
+"se_select" = "se @se/select.wav volume=0.6"
+
+# quake / quake_hard carry their own impact sound (picture + sound together)
+"quake" = """
+se @se/impact.wav volume=0.7
+shake strength=14 duration=0.5
+"""
+"quake_hard" = """
+se @se/impact.wav volume=0.95
+shake strength=20 duration=0.7
+"""
+"flash_white" = """
+se @se/whoosh.wav volume=0.5
+flash color=#fff duration=0.3
+"""
+"blinding_light" = """
+se @se/whoosh.wav volume=0.7
+fadeout 0.8 color=#fff
+"""
+"glitch_hit" = """
+se @se/glitch.wav volume=0.6
+glitch duration=0.9
+"""
+"transition" = """
+se @se/whoosh.wav volume=0.55
+fadeout
+clear fade=0
+"""

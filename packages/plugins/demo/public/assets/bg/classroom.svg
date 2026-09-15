@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#f0e4cf"/>
+  <rect y="620" width="1600" height="280" fill="#c9a87b"/>
+  <rect y="612" width="1600" height="14" fill="#a8854f"/>
+  <g stroke="#b8956a" stroke-width="4" opacity=".6">
+    <line x1="200" y1="640" x2="120" y2="900"/>
+    <line x1="600" y1="640" x2="560" y2="900"/>
+    <line x1="1000" y1="640" x2="1040" y2="900"/>
+    <line x1="1400" y1="640" x2="1480" y2="900"/>
+  </g>
+  <rect x="120" y="120" width="560" height="320" rx="10" fill="#2f5d4f" stroke="#7a5a33" stroke-width="14"/>
+  <rect x="150" y="400" width="500" height="14" fill="#7a5a33"/>
+  <g stroke="#cfe5dd" stroke-width="6" stroke-linecap="round" opacity=".7">
+    <line x1="180" y1="190" x2="330" y2="190"/>
+    <line x1="180" y1="240" x2="420" y2="240"/>
+    <line x1="180" y1="290" x2="300" y2="290"/>
+  </g>
+  <g>
+    <rect x="900" y="100" width="280" height="360" rx="8" fill="#ffd9a8" stroke="#a8854f" stroke-width="12"/>
+    <line x1="1040" y1="100" x2="1040" y2="460" stroke="#a8854f" stroke-width="10"/>
+    <line x1="900" y1="280" x2="1180" y2="280" stroke="#a8854f" stroke-width="10"/>
+    <rect x="1260" y="100" width="280" height="360" rx="8" fill="#ffcf91" stroke="#a8854f" stroke-width="12"/>
+    <line x1="1400" y1="100" x2="1400" y2="460" stroke="#a8854f" stroke-width="10"/>
+    <line x1="1260" y1="280" x2="1540" y2="280" stroke="#a8854f" stroke-width="10"/>
+  </g>
+  <path d="M900 460 L1180 460 L1080 760 L800 760 Z" fill="#ffc46b" opacity=".25"/>
+  <path d="M1260 460 L1540 460 L1460 760 L1180 760 Z" fill="#ffc46b" opacity=".22"/>
+  <g fill="#8a6a3f">
+    <rect x="220" y="650" width="240" height="22" rx="6"/>
+    <rect x="240" y="672" width="16" height="120"/>
+    <rect x="424" y="672" width="16" height="120"/>
+    <rect x="640" y="680" width="240" height="22" rx="6"/>
+    <rect x="660" y="702" width="16" height="130"/>
+    <rect x="844" y="702" width="16" height="130"/>
+    <rect x="1080" y="650" width="240" height="22" rx="6"/>
+    <rect x="1100" y="672" width="16" height="120"/>
+    <rect x="1284" y="672" width="16" height="120"/>
+  </g>
+</svg>

@@ -1,0 +1,96 @@
+; =====================================================
+;  Sample script — reads like a story.
+;  Text goes through the catalog (@key references); the languages live in catalogs.json.
+;  Actors / plugins / aliases / macros / defaults all live in nilvn.config.toml.
+; =====================================================
+
+[label start]
+[bg_street fade=1.8]
+[bgm_daily]
+|@narr_street
+[char yuki happy]
+yuki: @yuki_hi
+[charfx yuki hop]
+yuki: @yuki_found
+me: @me_again
+yuki(angry): @yuki_what
+[quake]
+[move yuki to=left time=0.5]
+[char rin cool at=right]
+rin: @rin_quarrel
+yuki(happy): @yuki_join
+[charfx rin nod]
+rin: @rin_where
+
+[choice @choice_follow -> follow_yuki]
+[choice @choice_ask -> ask_rin]
+
+[label follow_yuki]
+[se_select]
+[set trust_yuki = 1]
+[charfx yuki hop]
+yuki(happy): @yuki_knew
+rin: @rin_helpless
+[jump go_base]
+
+[label ask_rin]
+[se_select]
+[set trust_yuki = 0]
+[char rin smile]
+rin: @rin_rare
+yuki(sad): @yuki_sad
+me: @me_go
+[jump go_base]
+
+[label go_base]
+[transition]
+[bg_night]
+[bgm_night]
+[fadein]
+|@narr_rooftop
+[char yuki happy at=left]
+[char rin smile at=right]
+[sprite star @fx/sparkle.svg frames=8 fps=10 at=50 height=30]
+yuki: @yuki_seebase
+|@narr_city
+rin: @rin_notbad
+yuki: @yuki_ours
+
+; ---- from here the custom JS plugin glitch.js takes over ----
+[hidesprite star fade=0.4]
+[wait 0.5]
+[stopbgm fade=0.4]
+[flash_white]
+[glitch_hit]
+|@narr_glitch
+[glitch duration=0.5]
+rin(cool): @rin_saw
+yuki(sad): @yuki_whatwas
+[quake_hard]
+[blinding_light]
+[clear fade=0]
+[bg_classroom]
+[fadein 0.8]
+|@narr_classroom
+|@narr_deleted
+[char yuki sad]
+yuki: @yuki_dream
+[if trust_yuki >= 1 -> end_yuki]
+me: @me_remember
+[char rin smile at=right fade=0.4]
+rin: @rin_enough
+[jump fin]
+
+[label end_yuki]
+[set route_true = 1]
+me: @me_notdream
+[char yuki happy]
+[charfx yuki hop]
+yuki: @yuki_yes
+[jump fin]
+
+[label fin]
+[bgm_daily]
+|@narr_newstory
+[wait 0.6]
+[ending]

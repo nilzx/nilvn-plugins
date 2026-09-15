@@ -1,0 +1,18 @@
+{
+  // Type-checks the test suites only (vitest transpiles with esbuild and does
+  // NOT type-check). `@nilvn/engine` / `@nilvn/core` resolve to the installed
+  // packages' dist types; the plugins package itself is reached by relative import.
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": ["packages/*/test/**/*.ts"]
+}

@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      # Installs @nilvn/core / @nilvn/engine / @nilvn/plugin-sdk from npm at the
+      # ranges packages/plugins/package.json declares.
+      - run: pnpm install --frozen-lockfile
+
+      # tsc + the plugin boundary guard (type-only imports from the engine).
+      - run: pnpm typecheck
+      - run: pnpm typecheck:test
+
+      # Includes test/iife-smoke.test.ts, which rebuilds the batteries-included
+      # bundle from the shared builder and boots a real engine from the bytes.
+      - run: pnpm test
+
+      # Build exactly as `pnpm publish` would, then consume the tarball from a
+      # throwaway project next to the installed engine (scripts/pack-smoke.mjs).
+      - run: pnpm build
+      - run: pnpm pack:smoke

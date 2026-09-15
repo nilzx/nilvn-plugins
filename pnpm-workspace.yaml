@@ -1,0 +1,10 @@
+packages:
+  - packages/*
+
+allowBuilds:
+  esbuild: true
+
+minimumReleaseAgeExclude:
+  - '@nilvn/core@0.14.0'
+  - '@nilvn/engine@0.14.0'
+  - '@nilvn/plugin-sdk@0.14.0'

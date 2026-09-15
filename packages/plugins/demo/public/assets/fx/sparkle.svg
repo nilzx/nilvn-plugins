@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 100" width="800" height="100">
+  <!-- 8-frame single-row sparkle strip (100x100 cells) for the [sprite] demo.
+       Played via the engine's CSS steps() frame loop (DomRenderer.showSprite). -->
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff7d6" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#ffd86b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g fill="#fff3c4">
+    <g transform="translate(50,50) rotate(0) scale(0.20)" opacity="0.52"><circle r="46" fill="url(#glow)"/><path d="M40,0 L5.66,5.66 L0,40 L-5.66,5.66 L-40,0 L-5.66,-5.66 L0,-40 L5.66,-5.66 Z"/><circle r="6" fill="#fffdf5"/></g>
+    <g transform="translate(150,50) rotate(10) scale(0.50)" opacity="0.70"><circle r="46" fill="url(#glow)"/><path d="M40,0 L5.66,5.66 L0,40 L-5.66,5.66 L-40,0 L-5.66,-5.66 L0,-40 L5.66,-5.66 Z"/><circle r="6" fill="#fffdf5"/></g>
+    <g transform="translate(250,50) rotate(20) scale(0.80)" opacity="0.88"><circle r="46" fill="url(#glow)"/><path d="M40,0 L5.66,5.66 L0,40 L-5.66,5.66 L-40,0 L-5.66,-5.66 L0,-40 L5.66,-5.66 Z"/><circle r="6" fill="#fffdf5"/></g>
+    <g transform="translate(350,50) rotate(30) scale(1.00)" opacity="1"><circle r="46" fill="url(#glow)"/><path d="M40,0 L5.66,5.66 L0,40 L-5.66,5.66 L-40,0 L-5.66,-5.66 L0,-40 L5.66,-5.66 Z"/><circle r="6" fill="#fffdf5"/></g>
+    <g transform="translate(450,50) rotate(40) scale(0.90)" opacity="0.94"><circle r="46" fill="url(#glow)"/><path d="M40,0 L5.66,5.66 L0,40 L-5.66,5.66 L-40,0 L-5.66,-5.66 L0,-40 L5.66,-5.66 Z"/><circle r="6" fill="#fffdf5"/></g>
+    <g transform="translate(550,50) rotate(50) scale(0.65)" opacity="0.80"><circle r="46" fill="url(#glow)"/><path d="M40,0 L5.66,5.66 L0,40 L-5.66,5.66 L-40,0 L-5.66,-5.66 L0,-40 L5.66,-5.66 Z"/><circle r="6" fill="#fffdf5"/></g>
+    <g transform="translate(650,50) rotate(60) scale(0.40)" opacity="0.64"><circle r="46" fill="url(#glow)"/><path d="M40,0 L5.66,5.66 L0,40 L-5.66,5.66 L-40,0 L-5.66,-5.66 L0,-40 L5.66,-5.66 Z"/><circle r="6" fill="#fffdf5"/></g>
+    <g transform="translate(750,50) rotate(70) scale(0.25)" opacity="0.55"><circle r="46" fill="url(#glow)"/><path d="M40,0 L5.66,5.66 L0,40 L-5.66,5.66 L-40,0 L-5.66,-5.66 L0,-40 L5.66,-5.66 Z"/><circle r="6" fill="#fffdf5"/></g>
+  </g>
+</svg>

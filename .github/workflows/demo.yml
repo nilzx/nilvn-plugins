@@ -1,0 +1,53 @@
+# Build the demo game as a deployable folder and publish it to GitHub Pages
+# (https://nilzx.github.io/nilvn-plugins/). Enable Pages with the "GitHub
+# Actions" source once in the repository settings; every push to main redeploys.
+name: Demo
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # The same bundler a game author uses: the game folder plus nilvn.js
+      # (engine + first-party plugins), served over http.
+      - run: pnpm --filter @nilvn/plugins bundle demo/public --dir --out site
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: packages/plugins/site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
