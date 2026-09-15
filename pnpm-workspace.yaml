@@ -4,7 +4,7 @@ packages:
 allowBuilds:
   esbuild: true
 
+# The plugins consume each engine release the moment it is published, so the
+# engine packages are exempt from pnpm's minimum-release-age policy.
 minimumReleaseAgeExclude:
-  - '@nilvn/core@0.14.0'
-  - '@nilvn/engine@0.14.0'
-  - '@nilvn/plugin-sdk@0.14.0'
+  - '@nilvn/*'

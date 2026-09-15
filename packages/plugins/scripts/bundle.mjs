@@ -137,7 +137,7 @@ body{background:#0b0d16;display:flex;align-items:center;justify-content:center;o
 
 function htmlShell({ title, head = '', body }) {
   return `<!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -237,13 +237,23 @@ async function buildFolder(gameDir, config, outDir, minify) {
   const engineCode = await bundleEngine({ minify, stubToml: false })
   await fs.writeFile(path.join(outDir, 'nilvn.js'), engineCode)
 
+  // Optional multi-language content (catalogs.json next to the config): loaded
+  // before the engine boots, same as the single-file build inlines it. Without
+  // it the game is single-language and @key references have nothing to resolve.
+  const hasCatalogs = await fs.access(path.join(gameDir, 'catalogs.json')).then(() => true, () => false)
   const index = htmlShell({
     title,
     head: '<script src="./nilvn.js"></script>',
-    body: `<script>
-const engine = ADV.createEngine({ container: document.getElementById('app') });
+    body: `<script type="module">
+const catalogs = ${hasCatalogs ? "await (await fetch('./catalogs.json')).json()" : '{}'};
+const languages = Object.keys(catalogs);
+const defaultLang = ${JSON.stringify(config.game?.defaultLang ?? null)} ?? languages[0] ?? 'en';
+const want = new URLSearchParams(location.search).get('lang');
+const lang = languages.includes(want) ? want : defaultLang;
+const engine = ADV.createEngine({ container: document.getElementById('app'), catalogs, lang, defaultLang, ...(languages.length ? { languages } : {}) });
 window.engine = engine;
-engine.loadConfig('./nilvn.config.toml').then(() => engine.start());
+await engine.loadConfig('./nilvn.config.toml');
+await engine.start();
 </script>`,
   })
   await fs.writeFile(path.join(outDir, 'index.html'), index)
