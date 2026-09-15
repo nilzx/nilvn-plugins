@@ -40,7 +40,14 @@ CI runs exactly these.
   tests under `test/`.
 - Code, comments, documentation and commit messages are English.
 
-## Releases
+## How changes land
 
-`pnpm version:set plugins x.y.z` sets the package version; pushing the tag
-`plugins-vx.y.z` publishes to npm.
+This repository is a mirror: NilVN is developed in a private monorepo, and
+every push there re-exports this package here as one sync commit. A merged
+pull request is therefore carried back into the monorepo by the maintainer and
+comes out again in the next sync, rather than staying as a commit of its own.
+
+Releases work the same way: the maintainer sets the version and tags
+`plugins-vx.y.z` in the monorepo, the tag is mirrored onto the matching sync
+commit, and the publish workflow releases to npm through npm trusted
+publishing.

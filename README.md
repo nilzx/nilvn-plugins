@@ -51,7 +51,7 @@ Writing your own: [`@nilvn/plugin-sdk`](https://www.npmjs.com/package/@nilvn/plu
 packages/
   plugins/      @nilvn/plugins   src/plugins/ (the modules) · src/manifests.ts · src/messages.ts · src/iife.ts
                                  demo/ (the showcase game) · scripts/ (IIFE builder, game bundler, boundary check)
-scripts/        set-version.mjs · pack-smoke.mjs
+scripts/        pack-smoke.mjs
 ```
 
 ```bash
@@ -62,8 +62,11 @@ pnpm typecheck:test
 pnpm build             # dist/: ESM + .d.ts + nilvn.iife.js
 pnpm pack:smoke        # pack the tarball and consume it from a throwaway project
 pnpm demo              # the demo game on http://localhost:5180
-pnpm version:set plugins 0.2.0
 ```
+
+This repository is a mirror of the package's home in NilVN's private monorepo:
+every change arrives as a sync commit, and a `plugins-v*` tag mirrored onto one
+releases to npm ([CONTRIBUTING.md](CONTRIBUTING.md)).
 
 Versioned on its own axis (`plugins-v*` tags → npm); each manifest declares the
 engine range it runs on. Requires Node 22+ and pnpm. Contributions welcome — see

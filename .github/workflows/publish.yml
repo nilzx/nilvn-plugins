@@ -1,7 +1,7 @@
 # Publish @nilvn/plugins to npm when a plugins-v* tag is pushed, through npm
 # trusted publishing (no secret needed).
-# The tag must equal the package version (checked below), which
-# `pnpm version:set plugins x.y.z` maintains.
+# The tag is mirrored from the monorepo and must equal the package version
+# (checked below).
 name: Publish
 
 on:
