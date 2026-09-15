@@ -7,7 +7,7 @@ import { defineConfig } from 'vite'
 // do not, and the installed @nilvn/engine / @nilvn/core are used.
 const monorepoEngine = fileURLToPath(new URL('../engine/src/index.ts', import.meta.url))
 const monorepoCore = fileURLToPath(new URL('../core/src/index.ts', import.meta.url))
-const sourceAliases = existsSync(monorepoEngine) ? { '@nilvn/engine': monorepoEngine, '@nilvn/core': monorepoCore } : {}
+const sourceAliases: Record<string, string> = existsSync(monorepoEngine) ? { '@nilvn/engine': monorepoEngine, '@nilvn/core': monorepoCore } : {}
 
 export default defineConfig({
   root: 'demo',
