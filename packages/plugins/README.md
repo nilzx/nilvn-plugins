@@ -77,10 +77,10 @@ with `kind=character` (default) or `kind=sprite`.
 | `screenfx` | `[shake]` `[flash]` `[transout]` `[transin]` |
 | `charfx` | `[charfx id hop\|nod\|shake\|swing]` `[move id to=…]` |
 | `objectfx` | `[fade]` `[scale]` `[opacity]` `[visibility]` `[layer]` on any object |
-| `spriteanim` | `[sprite id sheet frames= fps=]` `[hidesprite id]` — sprite-sheet animation as a stage object |
+| `spriteanim` | `[sprite id sheet frames= fps=]` `[hidesprite id]` — sprite-sheet animation as a stage object; `onclick=` makes the sprite clickable (the engine runs those script commands, one per line). |
 | `choicefx` | Animated choice buttons (no markup) |
 | `voicefx` | Synthesized per-character typing blips at each actor's pitch (no markup) |
-| `animstudio` | Keyframe choreography commands NilVN Studio's timeline records |
+| `animstudio` | Keyframe choreography commands NilVN Studio's timeline records (Studio-only: the encoding is not meant to be written by hand) |
 | `abreplay` | A–B replay segments for a replay gallery |
 
 `voicerecord` has a manifest here too but no runtime half: it is the studio's
@@ -97,8 +97,8 @@ Pure CSS, staggered per character.
 |---|---|---|
 | `[shake]` | `strength=12` `duration=0.45` `target=screen` `kind=character` | Decaying random rumble on the camera, a character or a sprite. Composed as an offset, so a shaken camera keeps its pan. |
 | `[flash]` | `color=#ffffff` `duration=0.4` | Full-screen flash that fades out. |
-| `[transout]` | `type=wipe\|circle\|blinds` `dir=right\|left\|up\|down` `duration=0.6` `color=#000000` | Cover the screen with a shaped transition (then change the scene). |
-| `[transin]` | same | Reveal the screen with the shape played backwards. |
+| `[transout]` | `type=wipe\|circle\|blinds` `dir=right\|left\|up\|down` `duration=0.6` `color=#000000` `mask=` `softness=0.1` | Cover the screen with a shaped transition (then change the scene). `mask=` names a rule image (a luminance ramp) instead of a shape. For a direct old-to-new transition use the engine's `[trans …]`. |
+| `[transin]` | same | Reveal the screen with the shape (or rule) played backwards. |
 
 ### `charfx` — character motion
 
@@ -123,7 +123,7 @@ All take `target=` and `kind=character\|sprite` (or `target=screen` for the came
 
 | Command | Parameters | Effect |
 |---|---|---|
-| `[sprite id sheet]` | `frames=1` `fps=12` `loop=true` `at=center` `height=30` `y=` `scale=` `rotation=` `fade=0.3` | Play a single-row sprite sheet as a frame loop. `height` is a percentage of the stage height; `y` / `scale` / `rotation` seed the resting transform. The sprite becomes a transformable object (`sprite:<id>`) that every object effect can target. |
+| `[sprite id sheet]` | `frames=1` `fps=12` `loop=true` `at=center` `height=30` `y=` `scale=` `rotation=` `fade=0.3` | Play a single-row sprite sheet as a frame loop. Frames are square: the sprite is drawn at `height` with a 1:1 aspect ratio, so a sheet of N frames is N·h × h pixels. `height` is a percentage of the stage height; `y` / `scale` / `rotation` seed the resting transform. The sprite becomes a transformable object (`sprite:<id>`) that every object effect can target. |
 | `[hidesprite id]` | `fade=0.3` | Remove the sprite. |
 
 The `sprite` kind is declared with the engine's standard channel names
@@ -150,8 +150,9 @@ panel, per player), `wobble` (pitch jitter, author-only).
 `[anim …]`, `[eventframe …]`, `[loopstart …]` and `[loopstop …]` play keyframe
 tracks recorded in NilVN Studio's timeline (multi-object choreography including
 the camera, and background loops on one object). The compact keyframe encoding
-is meant to be produced by tooling; the plugin hands it to the stage capability
-as written and the engine decodes it. The plugin also owns the save-state slice
+is produced by NilVN Studio — it is not documented for hand-written scripts, so
+without Studio leave these commands aside; the plugin hands it to the stage
+capability as written and the engine decodes it. The plugin also owns the save-state slice
 that keeps loops running across a save and load.
 
 ### `abreplay` — replay segments

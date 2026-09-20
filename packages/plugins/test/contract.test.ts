@@ -64,4 +64,23 @@ describe('manifest ↔ runtime module', () => {
     expect(e.diagnostics).toEqual([])
     e.destroy()
   })
+
+  it('screenfx [transout] / [transin] hand a rule mask and softness to the renderer primitive', async () => {
+    const container = document.createElement('div')
+    document.body.append(container)
+    const e = createEngine({ ...withFirstParty(), container, textSpeed: 0, baseUrl: 'http://g.test/' })
+    const calls: unknown[][] = []
+    const stage = e.stage as unknown as { transitionScreen: (...a: unknown[]) => Promise<void> }
+    stage.transitionScreen = async (...a: unknown[]) => {
+      calls.push(a)
+    }
+    e.loadSource('[use screenfx]\n[transout mask=@fx/rule.png softness=0.3 duration=0.2]\n[transin type=circle]\n[set x = 1]')
+    await e.start()
+    expect(calls).toEqual([
+      [1, 0.2, { shape: 'wipe', dir: 'right', color: '#000000', mask: 'http://g.test/@fx/rule.png', softness: 0.3 }],
+      [0, 0.6, { shape: 'circle', dir: 'right', color: '#000000', mask: undefined, softness: undefined }],
+    ])
+    expect(e.diagnostics).toEqual([])
+    e.destroy()
+  })
 })

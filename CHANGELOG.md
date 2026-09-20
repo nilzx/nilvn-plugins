@@ -3,6 +3,19 @@
 Notable changes to `@nilvn/plugins` (tag `plugins-v*`). The package has its own
 version axis; each manifest declares the engine range it runs on.
 
+## 0.3.0 — 2026-09-21
+
+Requires `@nilvn/engine` ≥ 0.16 (every manifest's `engine` range).
+
+### Added
+
+- `screenfx`: `[transout]` / `[transin]` take `mask=` (a rule image — a
+  luminance ramp: dark pixels change first) and `softness=` (edge width,
+  default 0.1) in place of `type=`; the engine's rule-mask primitive draws it.
+  For a direct old-to-new scene transition see the engine's `[trans …]`.
+- `spriteanim`: `[sprite … onclick="…"]` makes the sprite clickable — the
+  engine runs those script commands (one per line) on a click.
+
 ## 0.2.0 — 2026-09-20
 
 Requires `@nilvn/engine` ≥ 0.15 (every manifest's `engine` range).

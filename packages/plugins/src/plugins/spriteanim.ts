@@ -20,7 +20,9 @@ export const spriteanim: EnginePlugin = {
   // CSS `steps()` loop, not a settable pose.
   objectKinds: [{ id: 'sprite', label: 'objectKind.sprite', transformable: true, recordable: ['x', 'y', 'scale', 'rotation', 'opacity', 'visible', 'band'] }],
   commands: {
-    // [sprite star @fx/sparkle.svg frames=8 fps=10 loop=true at=center height=30]
+    // [sprite star @fx/sparkle.svg frames=8 fps=10 loop=true at=center height=30
+    // onclick="jump star_scene"] — `onclick` makes the sprite clickable: the
+    // engine runs those script commands (one per line) on a click.
     async sprite(ctx) {
       const id = ctx.str(0)
       const sheet = ctx.str(1)
@@ -38,6 +40,7 @@ export const spriteanim: EnginePlugin = {
           y: ctx.numOpt('y'),
           scale: ctx.numOpt('scale'),
           rotation: ctx.numOpt('rotation'),
+          onclick: ctx.str('onclick'),
         },
         ctx.num('fade', 0.3),
       )

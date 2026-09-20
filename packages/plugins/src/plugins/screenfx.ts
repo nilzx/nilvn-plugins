@@ -48,8 +48,23 @@ function applyTransition(to: 0 | 1): (handle: StageObjectHandle, params: EffectP
     const shape = params.type === 'circle' || params.type === 'blinds' ? params.type : 'wipe'
     const d = params.dir
     const dir = d === 'left' || d === 'up' || d === 'down' ? d : 'right'
-    await ctx.stage?.transitionScreen(to, Number(params.duration) || 0.6, { shape, dir, color: String(params.color ?? '#000000') })
+    const mask = typeof params.mask === 'string' && params.mask ? params.mask : undefined
+    await ctx.stage?.transitionScreen(to, Number(params.duration) || 0.6, { shape, dir, color: String(params.color ?? '#000000'), mask, softness: params.softness !== undefined ? Number(params.softness) : undefined })
   }
+}
+
+function transParams(ctx: { str: (k: string, d?: string) => string | undefined; num: (k: string, d?: number) => number; resolve: (p: string) => string }): EffectParams {
+  const p: EffectParams = {
+    type: ctx.str('type', 'wipe') ?? 'wipe',
+    dir: ctx.str('dir', 'right') ?? 'right',
+    duration: ctx.num('duration', 0.6),
+    color: ctx.str('color', '#000000') ?? '#000000',
+  }
+  const mask = ctx.str('mask')
+  if (mask) p.mask = ctx.resolve(mask)
+  const softness = ctx.str('softness')
+  if (softness !== undefined) p.softness = Number(softness)
+  return p
 }
 
 export const screenfx: EnginePlugin = {
@@ -77,25 +92,17 @@ export const screenfx: EnginePlugin = {
       await ctx.plugin.stage?.applyEffect('flash', 'screen', { color: ctx.str('color', '#ffffff'), duration: ctx.num('duration', 0.4) })
     },
 
-    // [transout type=wipe|circle|blinds dir=right duration=0.6 color=#000000] —
-    // cover the screen (change the scene while it's hidden, then [transin]).
+    // [transout type=wipe|circle|blinds dir=right duration=0.6 color=#000000
+    // mask=@fx/rule.png softness=0.1] — cover the screen (change the scene while
+    // it's hidden, then [transin]). A rule image replaces the shape. For a direct
+    // old-to-new transition see the engine's `[trans …]` / `[bg trans=]`.
     async transout(ctx) {
-      await ctx.plugin.stage?.applyEffect('transout', 'screen', {
-        type: ctx.str('type', 'wipe'),
-        dir: ctx.str('dir', 'right'),
-        duration: ctx.num('duration', 0.6),
-        color: ctx.str('color', '#000000'),
-      })
+      await ctx.plugin.stage?.applyEffect('transout', 'screen', transParams(ctx))
     },
 
-    // [transin type=wipe dir=right duration=0.6 color=#000000] — reveal the screen.
+    // [transin type=wipe dir=right duration=0.6 color=#000000 mask=] — reveal the screen.
     async transin(ctx) {
-      await ctx.plugin.stage?.applyEffect('transin', 'screen', {
-        type: ctx.str('type', 'wipe'),
-        dir: ctx.str('dir', 'right'),
-        duration: ctx.num('duration', 0.6),
-        color: ctx.str('color', '#000000'),
-      })
+      await ctx.plugin.stage?.applyEffect('transin', 'screen', transParams(ctx))
     },
   },
 }
