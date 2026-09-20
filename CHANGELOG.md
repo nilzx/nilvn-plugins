@@ -3,6 +3,12 @@
 Notable changes to `@nilvn/plugins` (tag `plugins-v*`). The package has its own
 version axis; each manifest declares the engine range it runs on.
 
+## 0.3.1 — 2026-09-21
+
+The first published build of the 0.3 line: the 0.3.0 tag sat on a monorepo
+snapshot whose engine version never reached npm, so it was not mirrored.
+Content: 0.3.0, against the published `@nilvn/engine` 0.16.2.
+
 ## 0.3.0 — 2026-09-21
 
 Requires `@nilvn/engine` ≥ 0.16 (every manifest's `engine` range).
