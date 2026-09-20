@@ -8,7 +8,6 @@ import {
   firstPartyManifest,
   firstPartyManifests,
   isFirstPartyPlugin,
-  menuManifest,
 } from '../src/manifests'
 
 // The first-party manifests are the enabled-set source and the command schema
@@ -17,7 +16,7 @@ import {
 describe('first-party manifests', () => {
   it('every manifest validates cleanly (no errors, no warnings)', () => {
     for (const m of allFirstPartyManifests) {
-      expect(validatePluginManifest(m, { engineVersion: '0.14.0', editorVersion: '0.15.0' }), `manifest "${m.id}"`).toEqual({ errors: [], warnings: [] })
+      expect(validatePluginManifest(m, { engineVersion: '0.15.0', editorVersion: '0.15.0' }), `manifest "${m.id}"`).toEqual({ errors: [], warnings: [] })
     }
   })
 
@@ -49,7 +48,7 @@ describe('first-party manifests', () => {
     expect(hasEditorHalf(vr)).toBe(true)
   })
 
-  it('defaultFirstPartyRefs enables every content plugin by id, not the menu shell', () => {
+  it('defaultFirstPartyRefs enables every content plugin by id', () => {
     const refs = defaultFirstPartyRefs()
     expect(refs.length).toBe(firstPartyManifests.length)
     expect(refs.length).toBeGreaterThan(0)
@@ -58,15 +57,11 @@ describe('first-party manifests', () => {
       expect(isFirstPartyPlugin(r.id)).toBe(true)
       expect('entry' in r).toBe(false)
     }
-    expect(refs.some((r) => r.id === FIRST_PARTY_IDS.menu)).toBe(false) // the shell is not author-toggled
   })
 
-  it('the menu shell has a manifest of its own, outside the content set', () => {
-    expect(firstPartyManifests.some((m) => m.id === FIRST_PARTY_IDS.menu)).toBe(false)
-    expect(menuManifest.id).toBe(FIRST_PARTY_IDS.menu)
-    expect(hasEngineHalf(menuManifest)).toBe(true)
-    expect(menuManifest.messages?.zh?.['plugin.menu.load']).toBeTruthy()
-    expect(isFirstPartyPlugin('menu')).toBe(true)
+  it('the in-game menu is no plugin any more (built into the engine since 0.15)', () => {
+    expect(firstPartyManifests.some((m) => m.id === 'app.nilvn.menu')).toBe(false)
+    expect(isFirstPartyPlugin('menu')).toBe(false)
     expect(isFirstPartyPlugin('definitely-not-a-plugin')).toBe(false)
   })
 

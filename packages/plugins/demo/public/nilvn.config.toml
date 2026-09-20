@@ -10,7 +10,13 @@ textSpeed = 40        # typewriter speed in characters per second
 defaultLang = "en"    # default language; the multi-language text lives in catalogs.json and the menu switches it
 
 [plugins]
-use = ["screenfx", "textfx", "charfx", "choicefx", "voicefx", "spriteanim", "plugins/glitch.js", "plugins/ending.js"]
+use = ["screenfx", "textfx", "charfx", "choicefx", "voicefx", "spriteanim", "plugins/glitch.js"]
+
+# A plugin's own settings: the keys its manifest declares (contributes.config).
+# `enabled` / `level` are player-adjustable in the game's settings panel too.
+[plugins.voicefx]
+level = 0.8
+wobble = 0.08
 
 # Path prefix aliases, usable in every resource path
 [path]
@@ -20,8 +26,44 @@ use = ["screenfx", "textfx", "charfx", "choicefx", "voicefx", "spriteanim", "plu
 "@se" = "assets/se"
 "@fx" = "assets/fx"
 
+# ---- The finished game's shell (engine built-ins, no plugin) ----
+[title]                       # the title page: New game / Continue (when an autosave exists)
+subtitle = "@title.subtitle"  # @key → catalogs.json, so it follows the language
+background = "@bg/night.svg"
+bgm = "@bgm/night.wav"
+bgmVolume = 0.5
+
+[ending.true]                 # [ending true] in the script
+heading = "@ending.true.title"
+subtitle = "@ending.true.sub"
+background = "#0b1224"
+bgm = "@bgm/night.wav"
+credits = ["@credits.staff", "@credits.story", "@credits.engine", "@credits.art", "@credits.music", "@credits.voice", "@credits.fx", "", "@credits.thanks", "@credits.player"]
+after = "title"               # back to the title once the roll ends
+
+[ending.normal]               # [ending normal]
+heading = "@ending.normal.title"
+subtitle = "@ending.normal.sub"
+background = "#101323"
+credits = ["@credits.staff", "@credits.story", "@credits.engine", "@credits.art", "@credits.music", "@credits.voice", "@credits.fx", "", "@credits.thanks"]
+
+[menu]                        # ☰ / Esc: saves, backlog, auto, skip, settings, title, restart
+entry = "top-right"
+
+[settings]
+autoDelay = 1.2
+skipMode = "read"
+
+[saves]
+autosave = "label"            # Continue resumes from the last scene
+
+[theme]
+accent = "#ff7eb6"
+
 # ---- Actors ----
-# voice = base pitch (Hz) of the typing blip: higher sounds cuter, lower sounds calmer
+# voice = the voicefx plugin's actor field: base pitch (Hz) of the typing blip
+# (higher sounds cuter, lower sounds calmer). The engine files it under the
+# actor's ext["app.nilvn.voicefx"]; the plugin reads it with ctx.actorField().
 [actors.yuki]
 nameKey = "actor.yuki"
 color = "#ff7eb6"

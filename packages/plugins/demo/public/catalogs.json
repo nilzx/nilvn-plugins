@@ -33,7 +33,21 @@
     "rin_enough": "Then that's enough. {w:0.5}If the save is gone, we just go again.",
     "me_notdream": "It wasn't a dream. {w:0.5}Your secret base — let's get it back, together.",
     "yuki_yes": "{wave:Yeah!!}",
-    "narr_newstory": "— And so, a new story began."
+    "narr_newstory": "— And so, a new story began.",
+    "title.subtitle": "a tiny ADV demo",
+    "ending.true.title": "Back to That Starry Sky",
+    "ending.true.sub": "“Your secret base — let’s get it back, together.”",
+    "ending.normal.title": "Tomorrow, We Set Out Again",
+    "ending.normal.sub": "“If the save is gone, we just go again.”",
+    "credits.staff": "STAFF",
+    "credits.story": "Story · Script — story.nvn",
+    "credits.engine": "Engine — NilVN",
+    "credits.art": "Sprites · Backgrounds — procedurally generated SVG",
+    "credits.music": "Music · SFX — procedurally synthesized",
+    "credits.voice": "Voice — voicefx · realtime synthesis",
+    "credits.fx": "Direction · FX — screenfx · textfx · charfx · glitch",
+    "credits.thanks": "Thanks for playing!",
+    "credits.player": "Special thanks — you, who stayed by their side all along"
   },
   "ja": {
     "actor.yuki": "ゆき",
@@ -69,7 +83,21 @@
     "rin_enough": "なら十分。{w:0.5}セーブが消えても、もう一度行けばいい。",
     "me_notdream": "夢じゃない。{w:0.5}君の秘密基地、もう一度取り戻そう。",
     "yuki_yes": "{wave:うん！！}",
-    "narr_newstory": "―― こうして、新しい物語が始まった。"
+    "narr_newstory": "―― こうして、新しい物語が始まった。",
+    "title.subtitle": "ちいさな ADV デモ",
+    "ending.true.title": "あの星空へ、もう一度",
+    "ending.true.sub": "「君の秘密基地、もう一度取り戻そう。」",
+    "ending.normal.title": "明日、また歩き出そう",
+    "ending.normal.sub": "「セーブが消えても、もう一度行けばいい。」",
+    "credits.staff": "STAFF",
+    "credits.story": "原案・脚本 — story.nvn",
+    "credits.engine": "エンジン — NilVN",
+    "credits.art": "立ち絵・背景 — プログラム生成 SVG",
+    "credits.music": "音楽・効果音 — プログラム合成",
+    "credits.voice": "ボイス — voicefx・リアルタイム合成",
+    "credits.fx": "演出・エフェクト — screenfx・textfx・charfx・glitch",
+    "credits.thanks": "遊んでくれてありがとう！",
+    "credits.player": "Special Thanks — ずっと二人に寄り添ってくれた、あなたへ"
   },
   "zh": {
     "actor.yuki": "由纪",
@@ -105,6 +133,20 @@
     "rin_enough": "那就够了。{w:0.5}存档没了，再去一次就是。",
     "me_notdream": "不是梦。{w:0.5}你的秘密基地，我们再找回来一次吧。",
     "yuki_yes": "{wave:嗯！！}",
-    "narr_newstory": "—— 于是，新的故事开始了。"
+    "narr_newstory": "—— 于是，新的故事开始了。",
+    "title.subtitle": "一个小小的 ADV 演示",
+    "ending.true.title": "回到那片星空",
+    "ending.true.sub": "「你的秘密基地，我们再找回来一次吧。」",
+    "ending.normal.title": "明天，再出发",
+    "ending.normal.sub": "「存档没了，再去一次就是。」",
+    "credits.staff": "STAFF",
+    "credits.story": "原案 · 脚本 — story.nvn",
+    "credits.engine": "引擎 — NilVN",
+    "credits.art": "立绘 · 背景 — 程序化生成 SVG",
+    "credits.music": "音乐 · 音效 — 程序化合成",
+    "credits.voice": "对白配音 — voicefx · 实时合成",
+    "credits.fx": "演出特效 — screenfx · textfx · charfx · glitch",
+    "credits.thanks": "感谢游玩！",
+    "credits.player": "Special Thanks — 一直陪着她们的你"
   }
 }

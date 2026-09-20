@@ -2,8 +2,10 @@ import type { EnginePlugin, PluginContext } from '@nilvn/engine'
 
 // Per-character "voice blip" while text types out — the Undertale / Animal
 // Crossing trick. Synthesized live with the Web Audio API (no audio files).
-// Each actor gets a distinct pitch from its `voice` config, or a stable pitch
-// hashed from its id, so different characters sound a little different.
+// Each actor gets a distinct pitch from its `voice` actor field (this plugin's
+// `contributes.actorFields` entry), or a stable pitch hashed from its id, so
+// different characters sound a little different. `[plugins.voicefx]` settings:
+// `enabled` / `level` (player-adjustable), `wobble`.
 //
 // State is per activation: each context owns its own AudioContext + gesture
 // listeners (registered through `ctx.listen`, so the host releases them on
@@ -60,6 +62,7 @@ export const voicefx: EnginePlugin = {
   },
   hooks: {
     onReveal(ch, _index, speaker, ctx) {
+      if (ctx.config.get<boolean>('enabled') === false) return // the player switched blips off
       if (ctx.audio?.voicePlaying) return // a real per-line voice clip is playing — no synth blip
       if (!speaker || !ch || SILENT.test(ch)) return // narration & punctuation stay silent
       const ac = audioContext(ctx)
@@ -73,11 +76,14 @@ export const voicefx: EnginePlugin = {
 
       // The blip stands in for the speaker's voice, so it rides the same
       // volume channel as real voice clips (the menu's Voice slider).
-      const level = clamp01(ctx.audio?.volume('voice') ?? 1)
+      const level = clamp01((ctx.audio?.volume('voice') ?? 1) * (ctx.config.get<number>('level') ?? 1))
       if (level <= 0) return
 
-      const base = ctx.actors[speaker]?.voice ?? hashPitch(speaker)
-      const freq = base * (0.97 + Math.random() * 0.06) // tiny per-blip wobble
+      // The actor's pitch is this plugin's actor field (contributes.actorFields).
+      const declared = ctx.actorField(speaker, 'voice')
+      const base = typeof declared === 'number' && declared > 0 ? declared : hashPitch(speaker)
+      const wobble = ctx.config.get<number>('wobble') ?? 0.06
+      const freq = base * (1 - wobble / 2 + Math.random() * wobble) // tiny per-blip wobble
       const t = ac.currentTime
       const osc = ac.createOscillator()
       const gain = ac.createGain()

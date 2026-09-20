@@ -16,7 +16,6 @@ import { abreplay } from './plugins/abreplay.js'
 import { animstudio } from './plugins/animstudio.js'
 import { charfx } from './plugins/charfx.js'
 import { choicefx } from './plugins/choicefx.js'
-import { menu } from './plugins/menu.js'
 import { objectfx } from './plugins/objectfx.js'
 import { screenfx } from './plugins/screenfx.js'
 import { spriteanim } from './plugins/spriteanim.js'
@@ -24,14 +23,15 @@ import { textfx } from './plugins/textfx.js'
 import { voicefx } from './plugins/voicefx.js'
 import { allFirstPartyManifests } from './manifests.js'
 
-export { abreplay, animstudio, charfx, choicefx, menu, objectfx, screenfx, spriteanim, textfx, voicefx }
+export { abreplay, animstudio, charfx, choicefx, objectfx, screenfx, spriteanim, textfx, voicefx }
 export * from './manifests.js'
 export { PLUGIN_MESSAGES } from './messages.js'
 
 /** The runtime modules, in registration order: the nine content plugins with an
- *  engine half, then the `menu` shell. Scripts reach each by `[use <short name>]`
- *  or its id; the package manifest's `plugins` list activates them at load. */
-export const firstPartyPlugins: readonly EnginePlugin[] = [screenfx, objectfx, textfx, charfx, choicefx, voicefx, spriteanim, animstudio, abreplay, menu]
+ *  engine half. Scripts reach each by `[use <short name>]` or its id; the package
+ *  manifest's `plugins` list activates them at load. (The in-game menu is the
+ *  engine's own since 0.15.) */
+export const firstPartyPlugins: readonly EnginePlugin[] = [screenfx, objectfx, textfx, charfx, choicefx, voicefx, spriteanim, animstudio, abreplay]
 
 /** The `registry` + `manifests` pair for `createEngine`: every first-party
  *  module made available to `[use …]` / `enablePlugin` / a package's plugin

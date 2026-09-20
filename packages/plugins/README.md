@@ -3,7 +3,7 @@
 The first-party plugins for the [NilVN](https://github.com/nilzx/nilvn-engine)
 visual-novel engine: inline text effects, screen and camera effects, character
 motion, generic object verbs, sprite-sheet animation, animated choices, typing
-blips, keyframe choreography, replay segments and the finished game's menu. The
+blips, keyframe choreography and replay segments. The
 engine itself ships none of these — it is a runtime with a capability-sandboxed
 plugin host — so a game that wants them registers this set.
 
@@ -47,7 +47,7 @@ this set — what NilVN Studio inlines into exported games. The file is
 <script src="https://cdn.jsdelivr.net/npm/@nilvn/plugins/dist/nilvn.iife.js"></script>
 <script>
   const engine = ADV.createEngine({ container: document.getElementById('app') })
-  engine.loadSource('[use textfx menu]\nyuki: Hello')
+  engine.loadSource('[use textfx]\nyuki: Hello')
   engine.start()
 </script>
 ```
@@ -82,7 +82,6 @@ with `kind=character` (default) or `kind=sprite`.
 | `voicefx` | Synthesized per-character typing blips at each actor's pitch (no markup) |
 | `animstudio` | Keyframe choreography commands NilVN Studio's timeline records |
 | `abreplay` | A–B replay segments for a replay gallery |
-| `menu` | The finished game's menu: saves, backlog, replays, text speed, volumes, language |
 
 `voicerecord` has a manifest here too but no runtime half: it is the studio's
 per-line voice recording UI, listed so hosts see one inventory.
@@ -139,9 +138,12 @@ shine on hover.
 ### `voicefx` — typing blips
 
 No markup: while a line types out, a short synthesized blip plays per character
-at the speaker's pitch (`voice` in the actor declaration, Hz; otherwise a stable
-pitch derived from the actor id). Silent for whitespace and punctuation, and for
+at the speaker's pitch — the plugin's actor field `voice` (`[actors.yuki] voice = 360`
+in the config, or `[actor yuki voice=360]` in the script; Hz), otherwise a stable
+pitch derived from the actor id. Silent for whitespace and punctuation, and for
 any line that carries a real `[voice]` clip. Uses the Web Audio API; no files.
+Settings (`[plugins.voicefx]`): `enabled` and `level` (also in the game's settings
+panel, per player), `wobble` (pitch jitter, author-only).
 
 ### `animstudio` — keyframe animation
 
@@ -159,23 +161,13 @@ that keeps loops running across a save and load.
 unlocks the segment in the in-game menu's replay gallery; the studio emits these
 from its A–B replay panel.
 
-### `menu` — the in-game menu
-
-Not a content plugin: `[use menu]` (or `use: ['menu']` from the host) adds the
-finished game's menu — save and load slots, text speed, per-channel volume, the
-dialogue backlog with voice replay, the replay gallery and, when the work ships
-more than one language, a language switcher. Saves go to `localStorage`,
-namespaced by the work's save key. Its strings ship as manifest `messages` in
-`en`, `zh` and `ja`. The studio enables it in every export; `defaultFirstPartyRefs()`
-(the content set an author toggles) leaves it out.
-
 ## Exports
 
 | Export | What for |
 |---|---|
-| `firstPartyPlugins`, and each plugin by name (`textfx`, `screenfx`, …, `menu`) | The runtime modules (`EnginePlugin`). |
+| `firstPartyPlugins`, and each plugin by name (`textfx`, `screenfx`, …, `abreplay`) | The runtime modules (`EnginePlugin`). |
 | `withFirstParty()`, `firstPartyOptions(opts)` | The `registry` + `manifests` pair for `createEngine`. |
-| `firstPartyManifests`, `menuManifest`, `allFirstPartyManifests`, `firstPartyManifest(nameOrId)`, `isFirstPartyPlugin(nameOrId)`, `FIRST_PARTY_IDS`, `defaultFirstPartyRefs()`, `firstPartyCommandMap()`, `PLUGIN_MESSAGES` | The declarative side, also at `@nilvn/plugins/manifests` (DOM-free). `FIRST_PARTY_IDS` and `firstPartyManifests` include the editor-only `voicerecord`, so `isFirstPartyPlugin('voicerecord')` is true while `[use voicerecord]` has no runtime module to activate. |
+| `firstPartyManifests`, `allFirstPartyManifests`, `firstPartyManifest(nameOrId)`, `isFirstPartyPlugin(nameOrId)`, `FIRST_PARTY_IDS`, `defaultFirstPartyRefs()`, `firstPartyCommandMap()`, `PLUGIN_MESSAGES` | The declarative side, also at `@nilvn/plugins/manifests` (DOM-free). `FIRST_PARTY_IDS` and `firstPartyManifests` include the editor-only `voicerecord`, so `isFirstPartyPlugin('voicerecord')` is true while `[use voicerecord]` has no runtime module to activate. |
 | `@nilvn/plugins/iife` | `dist/nilvn.iife.js`, the batteries-included bundle (global `ADV`). |
 
 Ids live under the reserved `app.nilvn.` namespace, and a plugin there also
@@ -190,9 +182,17 @@ the manifest format, the permissions and capability objects, the lifecycle, a
 template package and the generated `plugin-spec.json`. The modules under
 [`src/plugins/`](src/plugins/) are worked examples of every extension point —
 text effects, commands, effects bound to object kinds, a contributed object
-kind, hooks, a save-state slice, a UI layer with timers.
+kind, hooks, a save-state slice, a UI layer with timers. Plugin CSS draws with
+the engine's theme tokens (`var(--nilvn-panel-bg)`, `var(--nilvn-accent)`, …;
+see the engine's [Theming](https://github.com/nilzx/nilvn-engine/blob/main/packages/engine/docs/api.md#theming))
+rather than colour literals, so a plugin's panel follows the work's theme; `ctx.theme`
+reads the current values.
 
 ## Working in the repository
+
+These are contributor commands inside this repository — an npm user builds with
+their own bundler or the CDN script (see the engine's
+[Getting started](https://github.com/nilzx/nilvn-engine/blob/main/packages/engine/docs/getting-started.md)).
 
 ```bash
 pnpm dev           # the demo game on http://localhost:5180 (demo/)

@@ -93,4 +93,8 @@ yuki: @yuki_yes
 [bgm_daily]
 |@narr_newstory
 [wait 0.6]
-[ending]
+[if route_true >= 1 -> fin_true]
+[ending normal]
+
+[label fin_true]
+[ending true]

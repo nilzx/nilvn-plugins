@@ -7,7 +7,7 @@
 import { describe, it, expect } from 'vitest'
 import { FIRST_PARTY_ID_PREFIX as CORE_PREFIX, PERMISSIONS, hasEngineHalf } from '@nilvn/core'
 import { ENGINE_CAPABILITIES, FIRST_PARTY_ID_PREFIX as ENGINE_PREFIX, createEngine, builtins } from '@nilvn/engine'
-import { FIRST_PARTY_IDS, allFirstPartyManifests, firstPartyManifests, firstPartyPlugins, menuManifest, withFirstParty } from '../src/index'
+import { FIRST_PARTY_IDS, allFirstPartyManifests, firstPartyManifests, firstPartyPlugins, withFirstParty } from '../src/index'
 
 describe('manifest ↔ runtime module', () => {
   it('every id lives in the namespace core and the engine reserve', () => {
@@ -21,7 +21,7 @@ describe('manifest ↔ runtime module', () => {
     const runtime = new Set(firstPartyPlugins.map((p) => p.id))
     expect([...manifests].filter((n) => !runtime.has(n))).toEqual([])
     expect([...runtime].filter((n) => !manifests.has(n))).toEqual([])
-    expect(runtime.has(FIRST_PARTY_IDS.menu)).toBe(true)
+    expect(runtime.has('app.nilvn.menu')).toBe(false) // the menu is the engine's own since 0.15
   })
 
   it('every runtime module declares exactly the engine-side permissions its manifest does', () => {
@@ -57,12 +57,11 @@ describe('manifest ↔ runtime module', () => {
     const container = document.createElement('div')
     document.body.append(container)
     const e = createEngine({ ...withFirstParty(), container, textSpeed: 0 })
-    e.loadSource('[use textfx screenfx menu]\n[set x = 1]')
+    e.loadSource('[use textfx screenfx]\n[set x = 1]')
     await e.start()
-    expect(e.activePlugins).toEqual([FIRST_PARTY_IDS.textfx, FIRST_PARTY_IDS.screenfx, FIRST_PARTY_IDS.menu])
+    expect(e.activePlugins).toEqual([FIRST_PARTY_IDS.textfx, FIRST_PARTY_IDS.screenfx])
     expect(e.getTextEffect('wave')).toBeTypeOf('function')
     expect(e.diagnostics).toEqual([])
-    expect(menuManifest.permissions).toEqual(firstPartyPlugins.find((p) => p.id === FIRST_PARTY_IDS.menu)!.permissions)
     e.destroy()
   })
 })

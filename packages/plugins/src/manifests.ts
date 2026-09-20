@@ -34,8 +34,6 @@ export const FIRST_PARTY_IDS = Object.freeze({
   voicerecord: 'app.nilvn.voicerecord',
   animstudio: 'app.nilvn.animstudio',
   abreplay: 'app.nilvn.abreplay',
-  /** The finished-game shell — see {@link menuManifest}. */
-  menu: 'app.nilvn.menu',
 })
 
 export type FirstPartyName = keyof typeof FIRST_PARTY_IDS
@@ -316,7 +314,7 @@ const SPRITEANIM_COMMANDS: CommandSchema[] = [
 
 /** Engine compatibility every bundled runtime half declares (the platform they
  *  were written against; bumped with the plugin contract, not per release). */
-const ENGINE_RANGE = '>=0.14 <1'
+const ENGINE_RANGE = '>=0.15 <1'
 const EDITOR_RANGE = '>=0.15 <1'
 
 /** Built-in content plugins, shown in the editor's plugin panel. */
@@ -480,10 +478,21 @@ export const firstPartyManifests: PluginManifest[] = [
     entries: { engine: HOST_REGISTRY },
     // Reads the voice channel volume / a playing clip to yield; synthesizes its own blip.
     permissions: ['audio.play'],
-    contributes: { hooks: ['onReveal'] },
+    contributes: {
+      hooks: ['onReveal'],
+      // The actor's pitch rides on the actor declaration as this plugin's field
+      // ([actors.yuki] voice = 360 / [actor yuki voice=360]) — no engine type.
+      actorFields: [{ key: 'voice', type: 'number', label: 'plugin.voicefx.field.voice' }],
+      config: [
+        { key: 'enabled', type: 'boolean', default: true, label: 'plugin.voicefx.cfg.enabled', scope: 'player' },
+        { key: 'level', type: 'number', default: 1, min: 0, max: 1, step: 0.05, label: 'plugin.voicefx.cfg.level', scope: 'player' },
+        { key: 'wobble', type: 'number', default: 0.06, min: 0, max: 0.3, step: 0.01, label: 'plugin.voicefx.cfg.wobble' },
+      ],
+    },
     authorUsage: [
       'No markup — applies automatically once enabled:',
-      '  a synthesized blip plays per typed character at the speaker\'s pitch (the actor\'s voice field, Hz); silent for lines that carry a real [voice] clip.',
+      '  a synthesized blip plays per typed character at the speaker\'s pitch ([actors.<id>] voice = Hz, or [actor id voice=Hz]); silent for lines that carry a real [voice] clip.',
+      '  [plugins.voicefx] enabled / level (player-adjustable in the settings panel), wobble.',
     ],
   },
   {
@@ -547,31 +556,18 @@ export const firstPartyManifests: PluginManifest[] = [
   },
 ]
 
-/** The finished-game shell: the in-game menu (saves / backlog / replays / text
- *  speed / volumes / language). Not in {@link firstPartyManifests}: the exporter
- *  always enables it, the author never toggles it. */
-export const menuManifest: PluginManifest = {
-  id: BUNDLED('menu'),
-  name: 'plugin.menu.name',
-  description: 'plugin.menu.desc',
-  version: '1.0.0',
-  engine: ENGINE_RANGE,
-  entries: { engine: HOST_REGISTRY },
-  permissions: ['session.save', 'session.settings', 'session.backlog', 'session.replay', 'ui.layer', 'timer'],
-}
-
 // Attach each plugin's own i18n catalog (registered under plugin:<id> by the
 // editor/engine loaders). Kept out of the manifest literals above for readability.
-for (const m of [...firstPartyManifests, menuManifest]) m.messages = PLUGIN_MESSAGES[slug(m.id)]
+for (const m of firstPartyManifests) m.messages = PLUGIN_MESSAGES[slug(m.id)]
 
-const BY_ID = new Map([...firstPartyManifests, menuManifest].map((m) => [m.id, m]))
+const BY_ID = new Map(firstPartyManifests.map((m) => [m.id, m]))
 
-/** Every first-party manifest including the menu shell — what a host registers
- *  next to {@link firstPartyPlugins} so the engine sees each declaration. */
-export const allFirstPartyManifests: readonly PluginManifest[] = [...firstPartyManifests, menuManifest]
+/** Every first-party manifest — what a host registers next to
+ *  {@link firstPartyPlugins} so the engine sees each declaration. (The in-game
+ *  menu is built into the engine since 0.15; there is no menu manifest.) */
+export const allFirstPartyManifests: readonly PluginManifest[] = firstPartyManifests
 
-/** The first-party manifest for a short name or id (content plugins AND the
- *  menu shell); undefined for anything else. */
+/** The first-party manifest for a short name or id; undefined for anything else. */
 export function firstPartyManifest(nameOrId: string): PluginManifest | undefined {
   return BY_ID.get(resolveId(nameOrId))
 }

@@ -63,7 +63,7 @@ describe('batteries-included IIFE artifact', () => {
     expect(typeof ADV.createEngine).toBe('function')
     expect(typeof ADV.parseScript).toBe('function')
     expect(typeof ADV.WebContentLoader).toBe('function')
-    expect(ADV.firstPartyPlugins.map((p) => p.id)).toContain('app.nilvn.menu')
+    expect(ADV.firstPartyPlugins.map((p) => p.id)).not.toContain('app.nilvn.menu') // the menu is the engine's own
   })
 
   it('boots, activates a first-party plugin by short name and renders its effect from the minified bytes', async () => {

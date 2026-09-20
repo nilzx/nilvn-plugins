@@ -14,14 +14,16 @@ const defaultLang = /defaultLang\s*=\s*"([^"]+)"/.exec(config)?.[1] ?? languages
 const want = new URLSearchParams(location.search).get('lang')
 const lang = want && languages.includes(want) ? want : defaultLang
 
-// The finale (result card + staff roll + replay) is the ending plugin's job,
-// loaded from nilvn.config.toml — so dev and the bundled builds behave the same.
+// The title page, the two endings (result card + credits) and the in-game menu
+// are the engine's own, configured in nilvn.config.toml — dev and the bundled
+// builds behave the same.
 const engine = createEngine({ container: app, catalogs, lang, defaultLang, languages })
 
 // Handy for poking around in DevTools
 Object.assign(window, { engine })
 
 // Everything game-specific lives in nilvn.config.toml:
-// plugins, path aliases, actors, command defaults, macros and the entry script.
+// plugins, path aliases, actors, command defaults, macros, the entry script,
+// the title / ending pages, the menu and the settings panel.
 await engine.loadConfig('./nilvn.config.toml')
-await engine.start()
+await engine.showTitle() // start() would skip the title page; the page's New game calls it

@@ -214,7 +214,7 @@ const lang = languages.includes(want) ? want : defaultLang;
 const engine = createEngine({ container: document.getElementById('app'), assets, plugins, catalogs, lang, defaultLang, languages });
 applyConfig(engine, config);
 engine.loadSource(script);
-engine.start();
+engine.showTitle();
 window.engine = engine;
 </script>`
 
@@ -253,7 +253,7 @@ const lang = languages.includes(want) ? want : defaultLang;
 const engine = ADV.createEngine({ container: document.getElementById('app'), catalogs, lang, defaultLang, ...(languages.length ? { languages } : {}) });
 window.engine = engine;
 await engine.loadConfig('./nilvn.config.toml');
-await engine.start();
+await engine.showTitle();
 </script>`,
   })
   await fs.writeFile(path.join(outDir, 'index.html'), index)
