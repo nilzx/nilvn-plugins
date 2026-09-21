@@ -160,7 +160,9 @@ that keeps loops running across a save and load.
 `[replaydef id= title= label=]` declares a replayable segment and
 `[replayend id]` marks where it ends. Passing the end marker in normal play
 unlocks the segment in the in-game menu's replay gallery; the studio emits these
-from its A–B replay panel.
+from its A–B replay panel. Declarations are read when their file is parsed, so
+in a multi-file work they all belong in the **entry** script — the end markers
+stay in the scenes they close.
 
 ## Exports
 

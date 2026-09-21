@@ -58,8 +58,8 @@
     "prepack": "pnpm build"
   },
   "peerDependencies": {
-    "@nilvn/core": "^0.16.2",
-    "@nilvn/engine": "^0.16.2"
+    "@nilvn/core": "^0.16.3",
+    "@nilvn/engine": "^0.16.3"
   },
   "peerDependenciesMeta": {
     "@nilvn/core": {
@@ -67,9 +67,9 @@
     }
   },
   "devDependencies": {
-    "@nilvn/core": "^0.16.2",
-    "@nilvn/engine": "^0.16.2",
-    "@nilvn/plugin-sdk": "^0.16.2",
+    "@nilvn/core": "^0.16.3",
+    "@nilvn/engine": "^0.16.3",
+    "@nilvn/plugin-sdk": "^0.16.3",
     "@types/node": "^24.0.0",
     "esbuild": "^0.28.1",
     "smol-toml": "^1.6.1",

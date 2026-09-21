@@ -74,10 +74,10 @@ describe('manifest ↔ runtime module', () => {
     stage.transitionScreen = async (...a: unknown[]) => {
       calls.push(a)
     }
-    e.loadSource('[use screenfx]\n[transout mask=@fx/rule.png softness=0.3 duration=0.2]\n[transin type=circle]\n[set x = 1]')
+    e.loadSource('[use screenfx]\n[alias @fx fx]\n[transout mask=@fx/rule.png softness=0.3 duration=0.2]\n[transin type=circle]\n[set x = 1]')
     await e.start()
     expect(calls).toEqual([
-      [1, 0.2, { shape: 'wipe', dir: 'right', color: '#000000', mask: 'http://g.test/@fx/rule.png', softness: 0.3 }],
+      [1, 0.2, { shape: 'wipe', dir: 'right', color: '#000000', mask: 'http://g.test/fx/rule.png', softness: 0.3 }],
       [0, 0.6, { shape: 'circle', dir: 'right', color: '#000000', mask: undefined, softness: undefined }],
     ])
     expect(e.diagnostics).toEqual([])
