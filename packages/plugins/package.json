@@ -1,6 +1,6 @@
 {
   "name": "@nilvn/plugins",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "type": "module",
   "description": "The first-party NilVN plugins — text / character / screen / object effects, sprite animation, keyframe choreography, replays, the in-game menu — as runtime modules, manifests and a batteries-included engine bundle",
   "license": "MIT",
@@ -58,8 +58,8 @@
     "prepack": "pnpm build"
   },
   "peerDependencies": {
-    "@nilvn/core": "^0.17.0",
-    "@nilvn/engine": "^0.17.0"
+    "@nilvn/core": "^0.17.1",
+    "@nilvn/engine": "^0.17.1"
   },
   "peerDependenciesMeta": {
     "@nilvn/core": {
@@ -67,9 +67,9 @@
     }
   },
   "devDependencies": {
-    "@nilvn/core": "^0.17.0",
-    "@nilvn/engine": "^0.17.0",
-    "@nilvn/plugin-sdk": "^0.17.0",
+    "@nilvn/core": "^0.17.1",
+    "@nilvn/engine": "^0.17.1",
+    "@nilvn/plugin-sdk": "^0.17.1",
     "@types/node": "^24.0.0",
     "esbuild": "^0.28.1",
     "smol-toml": "^1.6.1",

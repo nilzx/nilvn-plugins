@@ -3,6 +3,18 @@
 Notable changes to `@nilvn/plugins` (tag `plugins-v*`). The package has its own
 version axis; each manifest declares the engine range it runs on.
 
+## 0.3.2 — 2026-09-22
+
+Requires `@nilvn/engine` ≥ 0.17 (every manifest's `engine` range).
+
+### Added
+
+- `objectfx`: `[layer … layer=back]` tucks a character or sprite behind the
+  characters — the engine's new `back` band, between the background and the
+  characters and still under the camera — for ambient particles and light
+  shafts that must not cover a sprite. `front` / `world` are unchanged; the
+  palette's Layer control offers the third value.
+
 ## 0.3.1 — 2026-09-21
 
 The first published build of the 0.3 line: the 0.3.0 tag sat on a monorepo

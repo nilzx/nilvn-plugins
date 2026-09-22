@@ -16,7 +16,7 @@ import {
 describe('first-party manifests', () => {
   it('every manifest validates cleanly (no errors, no warnings)', () => {
     for (const m of allFirstPartyManifests) {
-      expect(validatePluginManifest(m, { engineVersion: '0.16.0', editorVersion: '0.16.0' }), `manifest "${m.id}"`).toEqual({ errors: [], warnings: [] })
+      expect(validatePluginManifest(m, { engineVersion: '0.17.0', editorVersion: '0.16.0' }), `manifest "${m.id}"`).toEqual({ errors: [], warnings: [] })
     }
   })
 

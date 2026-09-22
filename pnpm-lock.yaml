@@ -24,14 +24,14 @@ importers:
   packages/plugins:
     devDependencies:
       '@nilvn/core':
-        specifier: ^0.17.0
-        version: 0.17.0
+        specifier: ^0.17.1
+        version: 0.17.1
       '@nilvn/engine':
-        specifier: ^0.17.0
-        version: 0.17.0(@nilvn/core@0.17.0)
+        specifier: ^0.17.1
+        version: 0.17.1(@nilvn/core@0.17.1)
       '@nilvn/plugin-sdk':
-        specifier: ^0.17.0
-        version: 0.17.0(@nilvn/engine@0.17.0(@nilvn/core@0.17.0))
+        specifier: ^0.17.1
+        version: 0.17.1(@nilvn/engine@0.17.1(@nilvn/core@0.17.1))
       '@types/node':
         specifier: ^24.0.0
         version: 24.13.4
@@ -280,21 +280,21 @@ packages:
     os: [linux]
     libc: [glibc]
 
-  '@nilvn/core@0.17.0':
-    resolution: {integrity: sha512-WLhd3q2pd1u4golDVGiPG6HV++1hwPYt0h2fCez1aQYEpFk0784axdpXz/BLAt1N5vr20lsOrW8gPJ+YUCbugw==}
+  '@nilvn/core@0.17.1':
+    resolution: {integrity: sha512-OPjyR7R2P8PgnTWg6gxQLavOAUurf0t3hTN7fD8LLIoK9Asilzv0bJqdk5rziLFjwaQpFnQUceJmcCuLkk4dIg==}
 
-  '@nilvn/engine@0.17.0':
-    resolution: {integrity: sha512-ZPZKn8djyZxhBRSymZtNMYMxcYpLSVrDx3KSiQoh7AdQ7kpnQRGPXoyt4znFzRrKY4Dt9uYcFkNOfifkx4jpDw==}
+  '@nilvn/engine@0.17.1':
+    resolution: {integrity: sha512-CCBkc0CHtnUGPuM7yyW0JRC/NglV7s85Fx5RL1YAbdhGq+UxgNP/lGGdpuwb1kBxMXg6/15qmuPplEi2LAVTDA==}
     peerDependencies:
-      '@nilvn/core': ^0.17.0
+      '@nilvn/core': ^0.17.1
     peerDependenciesMeta:
       '@nilvn/core':
         optional: true
 
-  '@nilvn/plugin-sdk@0.17.0':
-    resolution: {integrity: sha512-fqs77AgQbKxrJRVY5gPPWvGgRQjvgmmOM81hcJPLZy/Wmw653sQeDXV5unYUSAvwQ9T8c2yAxczyfeJTFhN85A==}
+  '@nilvn/plugin-sdk@0.17.1':
+    resolution: {integrity: sha512-h9uoNAp4BNk4f7YAO6iwJzEzD6N2raLcGT5mRUKdKlcariqxdMLYVqT5WWKtOMVfswYj4x9vfGiQEuF6WOS3ig==}
     peerDependencies:
-      '@nilvn/engine': ^0.17.0
+      '@nilvn/engine': ^0.17.1
     peerDependenciesMeta:
       '@nilvn/engine':
         optional: true
@@ -920,19 +920,19 @@ snapshots:
   '@napi-rs/lzma-linux-x64-gnu@1.5.1':
     optional: true
 
-  '@nilvn/core@0.17.0': {}
+  '@nilvn/core@0.17.1': {}
 
-  '@nilvn/engine@0.17.0(@nilvn/core@0.17.0)':
+  '@nilvn/engine@0.17.1(@nilvn/core@0.17.1)':
     dependencies:
       smol-toml: 1.8.0
     optionalDependencies:
-      '@nilvn/core': 0.17.0
+      '@nilvn/core': 0.17.1
 
-  '@nilvn/plugin-sdk@0.17.0(@nilvn/engine@0.17.0(@nilvn/core@0.17.0))':
+  '@nilvn/plugin-sdk@0.17.1(@nilvn/engine@0.17.1(@nilvn/core@0.17.1))':
     dependencies:
-      '@nilvn/core': 0.17.0
+      '@nilvn/core': 0.17.1
     optionalDependencies:
-      '@nilvn/engine': 0.17.0(@nilvn/core@0.17.0)
+      '@nilvn/engine': 0.17.1(@nilvn/core@0.17.1)
 
   '@rollup/rollup-android-arm-eabi@4.63.2':
     optional: true

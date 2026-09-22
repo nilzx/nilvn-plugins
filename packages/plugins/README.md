@@ -117,7 +117,7 @@ All take `target=` and `kind=character\|sprite` (or `target=screen` for the came
 | `[scale]` | `to=1.2` `duration=0.4` | Scale an object (on the camera: zoom). |
 | `[opacity]` | `to=0.5` `duration=0` | Set an object's opacity. |
 | `[visibility]` | `vis=hide\|show` | Hide or show an object without a fade. |
-| `[layer]` | `layer=front\|world` | Lift a character or sprite in front of the dialogue box (`front`, no longer camera-shaken) or return it to the stage (`world`). |
+| `[layer]` | `layer=front\|back\|world` | Lift a character or sprite in front of the dialogue box (`front`, no longer camera-shaken), tuck it behind the characters (`back`: between the background and the characters, still under the camera — ambient particles, light shafts; engine ≥ 0.17) or return it to the stage (`world`). |
 
 ### `spriteanim` — sprite-sheet animation
 

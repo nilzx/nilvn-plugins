@@ -57,9 +57,12 @@ function applyVisibility(handle: StageObjectHandle, params: EffectParams): void 
 }
 
 /** Move the object between fixed z-bands: `front` lifts it over the dialogue box
- *  (out of world space), `world` returns it to its home band. Structural, not animated; instant. */
+ *  (out of world space), `back` puts it behind the characters (still under the
+ *  camera — ambient particles, light shafts), `world` returns it to its home band.
+ *  Structural, not animated; instant. Anything else reads as `front`. */
 function applyLayer(handle: StageObjectHandle, params: EffectParams): void {
-  handle.setBand(String(params.layer ?? 'front') === 'world' ? 'world' : 'front')
+  const layer = String(params.layer ?? 'front')
+  handle.setBand(layer === 'world' || layer === 'back' ? layer : 'front')
 }
 
 export const objectfx: EnginePlugin = {
@@ -95,7 +98,9 @@ export const objectfx: EnginePlugin = {
       const objId = targetId(ctx.str('target', 'screen'), ctx.str('kind', 'character'))
       await ctx.plugin.stage?.applyEffect('visibility', objId, { vis: ctx.str('vis', 'hide') })
     },
-    // [layer target=<id> kind=character|sprite layer=front|world] — promote over
+    // [layer target=<id> kind=character|sprite layer=front|back|world] — promote over
+    // the dialogue (front), tuck behind the characters (back) or return to the
+    // home band (world). Camera isn't bandable.|sprite layer=front|world] — promote over
     // the dialogue (front) or return to the home band (world). Camera isn't bandable.
     async layer(ctx) {
       const objId = targetId(ctx.str('target', 'screen'), ctx.str('kind', 'character'))

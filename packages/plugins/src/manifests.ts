@@ -247,6 +247,7 @@ const OBJECTFX_COMMANDS: CommandSchema[] = [
         default: 'front',
         options: [
           { value: 'front', label: 'plugin.objectfx.cmd.layer.layer.front' },
+          { value: 'back', label: 'plugin.objectfx.cmd.layer.layer.back' },
           { value: 'world', label: 'plugin.objectfx.cmd.layer.layer.world' },
         ],
       },
@@ -314,7 +315,7 @@ const SPRITEANIM_COMMANDS: CommandSchema[] = [
 
 /** Engine compatibility every bundled runtime half declares (the platform they
  *  were written against; bumped with the plugin contract, not per release). */
-const ENGINE_RANGE = '>=0.16 <1'
+const ENGINE_RANGE = '>=0.17 <1'
 const EDITOR_RANGE = '>=0.15 <1'
 
 /** Built-in content plugins, shown in the editor's plugin panel. */
@@ -448,7 +449,7 @@ export const firstPartyManifests: PluginManifest[] = [
       '  [scale target=… to=1.2 duration=0.4] — scale an object (on the camera: zoom)',
       '  [opacity target=… to=0.5] — set an object\'s opacity',
       '  [visibility target=… vis=hide|show] — hide or show an object',
-      '  [layer target=<id> kind=character|sprite layer=front|world] — lift an object in front of the dialogue box, or return it to the stage',
+      '  [layer target=<id> kind=character|sprite layer=front|back|world] — lift an object in front of the dialogue box, tuck it behind the characters, or return it to the stage|sprite layer=front|world] — lift an object in front of the dialogue box, or return it to the stage',
     ],
   },
   {
