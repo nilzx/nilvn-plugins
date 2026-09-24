@@ -1,6 +1,6 @@
 {
   "name": "@nilvn/plugins",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "type": "module",
   "description": "The first-party NilVN plugins — text / character / screen / object effects, sprite animation, keyframe choreography, replays, the in-game menu — as runtime modules, manifests and a batteries-included engine bundle",
   "license": "MIT",
