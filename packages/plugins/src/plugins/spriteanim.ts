@@ -21,11 +21,16 @@ export const spriteanim: EnginePlugin = {
   objectKinds: [{ id: 'sprite', label: 'objectKind.sprite', transformable: true, recordable: ['x', 'y', 'scale', 'rotation', 'opacity', 'visible', 'band'] }],
   commands: {
     // [sprite star @fx/sparkle.svg frames=8 fps=10 loop=true at=center height=30
-    // onclick="jump star_scene"] — `onclick` makes the sprite clickable: the
-    // engine runs those script commands (one per line) on a click.
+    // onclick="jump star_scene" if=!seen_star] — `onclick` makes the sprite
+    // clickable: the engine runs those script commands (one per line) on a click.
+    // A false `if=` (declared `ifFalse: 'handle'`) takes the sprite off the stage.
     async sprite(ctx) {
       const id = ctx.str(0)
       const sheet = ctx.str(1)
+      if (!ctx.cond) {
+        if (id) await ctx.plugin.stage?.hideSprite(id, ctx.num('fade', 0.3))
+        return
+      }
       if (!id || !sheet) throw new Error('[sprite] syntax: [sprite <id> <sheet> frames= fps= loop= at= height=]')
       await ctx.plugin.stage?.showSprite(
         id,

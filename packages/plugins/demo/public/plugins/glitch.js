@@ -19,20 +19,26 @@ export default {
 }`,
 
   commands: {
-    // [glitch duration=0.6 strength=14] — a jittery camera rumble through the
-    // generic transform surface (keyframes are displacements from the current pose).
+    // [glitch duration=0.6 strength=14] — a jittery camera rumble with colour
+    // flashes, through the generic transform surface: keyframes are displacements
+    // from the current pose (compose 'offset'), and the camera's colour-grade
+    // channels (hue / invert / saturate / contrast) flash on some of them. Each
+    // keyframe holds until the next (per-frame steps(1)), a hard cut every ~33 ms.
     async glitch({ num, plugin }) {
       const stage = plugin.stage
       if (!stage) return
       const strength = num('strength', 14)
       const duration = num('duration', 0.6)
       const steps = Math.max(6, Math.round(duration * 30))
+      const clear = { hue: 0, invert: 0, saturate: 1, contrast: 1 }
       const frames = []
       for (let i = 0; i < steps; i++) {
-        frames.push({ x: (Math.random() - 0.5) * strength * 2, y: (Math.random() - 0.5) * strength, rotation: (Math.random() - 0.5) * 2 })
+        const r = Math.random()
+        const colour = r < 0.35 ? { hue: Math.round(r * 360), invert: 0, saturate: 4, contrast: 1.4 } : r < 0.5 ? { ...clear, invert: 1 } : clear
+        frames.push({ x: (r - 0.5) * strength * 2, y: (Math.random() - 0.5) * strength, rotation: (Math.random() - 0.5) * 2, ...colour, easing: 'steps(1, end)' })
       }
-      frames.push({ x: 0, y: 0, rotation: 0 })
-      await stage.animate('camera', frames, { durationSec: duration, easing: 'steps(2)', compose: 'offset' })
+      frames.push({ x: 0, y: 0, rotation: 0, ...clear })
+      await stage.animate('camera', frames, { durationSec: duration, easing: 'linear', compose: 'offset' })
     },
   },
 

@@ -271,6 +271,9 @@ const SPRITEANIM_COMMANDS: CommandSchema[] = [
     category: 'stage',
     icon: '🎞️',
     hint: 'plugin.spriteanim.cmd.sprite.hint',
+    // A false `if=` means "not on stage": the command still runs and hides the
+    // sprite, so a re-run of the scene retires a clickable sprite (as [hotspot] does).
+    ifFalse: 'handle',
     params: [
       // Positionals must match the engine handler reads (ctx.str(0)/str(1));
       // the rest are named with defaults aligned to the handler fallbacks so a
@@ -315,7 +318,7 @@ const SPRITEANIM_COMMANDS: CommandSchema[] = [
 
 /** Engine compatibility every bundled runtime half declares (the platform they
  *  were written against; bumped with the plugin contract, not per release). */
-const ENGINE_RANGE = '>=0.17 <1'
+const ENGINE_RANGE = '>=0.18 <1'
 const EDITOR_RANGE = '>=0.15 <1'
 
 /** Built-in content plugins, shown in the editor's plugin panel. */

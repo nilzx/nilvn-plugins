@@ -77,7 +77,7 @@ with `kind=character` (default) or `kind=sprite`.
 | `screenfx` | `[shake]` `[flash]` `[transout]` `[transin]` |
 | `charfx` | `[charfx id hop\|nod\|shake\|swing]` `[move id to=…]` |
 | `objectfx` | `[fade]` `[scale]` `[opacity]` `[visibility]` `[layer]` on any object |
-| `spriteanim` | `[sprite id sheet frames= fps=]` `[hidesprite id]` — sprite-sheet animation as a stage object; `onclick=` makes the sprite clickable (the engine runs those script commands, one per line). |
+| `spriteanim` | `[sprite id sheet frames= fps=]` `[hidesprite id]` — sprite-sheet animation as a stage object; `onclick=` makes the sprite clickable (the engine runs those script commands, one per line), and a false `if=` takes it off the stage. |
 | `choicefx` | Animated choice buttons (no markup) |
 | `voicefx` | Synthesized per-character typing blips at each actor's pitch (no markup) |
 | `animstudio` | Keyframe choreography commands NilVN Studio's timeline records (Studio-only: the encoding is not meant to be written by hand) |
@@ -123,7 +123,7 @@ All take `target=` and `kind=character\|sprite` (or `target=screen` for the came
 
 | Command | Parameters | Effect |
 |---|---|---|
-| `[sprite id sheet]` | `frames=1` `fps=12` `loop=true` `at=center` `height=30` `y=` `scale=` `rotation=` `fade=0.3` | Play a single-row sprite sheet as a frame loop. Frames are square: the sprite is drawn at `height` with a 1:1 aspect ratio, so a sheet of N frames is N·h × h pixels. `height` is a percentage of the stage height; `y` / `scale` / `rotation` seed the resting transform. The sprite becomes a transformable object (`sprite:<id>`) that every object effect can target. |
+| `[sprite id sheet]` | `frames=1` `fps=12` `loop=true` `at=center` `height=30` `y=` `scale=` `rotation=` `fade=0.3` | Play a single-row sprite sheet as a frame loop. Frames are square: the sprite is drawn at `height` with a 1:1 aspect ratio, so a sheet of N frames is N·h × h pixels. `height` is a percentage of the stage height; `y` / `scale` / `rotation` seed the resting transform. The sprite becomes a transformable object (`sprite:<id>`) that every object effect can target. `onclick="…"` makes it clickable; a trailing `if=condition` that is false takes the sprite off the stage (as a false `[hotspot … if=]` leaves the region out), so `[sprite star … onclick="set seen = true" if=!seen]` retires a one-shot sprite once the scene re-runs. |
 | `[hidesprite id]` | `fade=0.3` | Remove the sprite. |
 
 The `sprite` kind is declared with the engine's standard channel names
@@ -188,8 +188,10 @@ text effects, commands, effects bound to object kinds, a contributed object
 kind, hooks, a save-state slice, a UI layer with timers. Plugin CSS draws with
 the engine's theme tokens (`var(--nilvn-panel-bg)`, `var(--nilvn-accent)`, …;
 see the engine's [Theming](https://github.com/nilzx/nilvn-engine/blob/main/packages/engine/docs/api.md#theming))
-rather than colour literals, so a plugin's panel follows the work's theme; `ctx.theme`
-reads the current values.
+rather than colour literals — `color-mix(in srgb, var(--nilvn-…) 28%, transparent)` for a
+translucent tint — so a plugin's panel follows the work's theme; `ctx.theme` reads the
+current values. `pnpm typecheck` enforces this for the modules here
+(`scripts/check-boundary.mjs`).
 
 ## Working in the repository
 

@@ -3,6 +3,17 @@
 Notable changes to `@nilvn/plugins` (tag `plugins-v*`). The package has its own
 version axis; each manifest declares the engine range it runs on.
 
+## Unreleased
+
+### Added
+
+- `spriteanim`: `[sprite … if=condition]` — a false condition takes the sprite off the stage (the command declares `ifFalse: 'handle'`), so a one-shot clickable sprite retires once its scene re-runs, as a `[hotspot … if=]` does.
+
+### Changed
+
+- `textfx`'s rainbow starts from `var(--nilvn-accent)` and `choicefx`'s sheen takes `--nilvn-choice-color` through `color-mix()`: no colour literals left in the plugins' styles (the default theme renders the sheen exactly as before). `pnpm typecheck` now rejects colour literals in `styles`.
+- The demo's `[glitch]` flashes colour again, through the engine's camera colour channels, and cuts hard between frames.
+
 ## 0.3.2 — 2026-09-22
 
 Requires `@nilvn/engine` ≥ 0.17 (every manifest's `engine` range).

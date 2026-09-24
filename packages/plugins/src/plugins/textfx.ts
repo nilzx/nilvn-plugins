@@ -12,7 +12,7 @@ export const textfx: EnginePlugin = {
 @keyframes tfx-wave{0%,100%{transform:translateY(0)}50%{transform:translateY(-.32em)}}
 .nilvn-ch.tfx-shaky.on{animation:tfx-shaky .18s steps(2) infinite}
 @keyframes tfx-shaky{0%{transform:translate(.04em,-.03em)}50%{transform:translate(-.05em,.04em)}100%{transform:translate(.03em,.02em)}}
-.nilvn-ch.tfx-rainbow.on{color:#ff5c7a;animation:tfx-rainbow 1.6s linear infinite;animation-delay:calc(var(--i,0)*-90ms)}
+.nilvn-ch.tfx-rainbow.on{color:var(--nilvn-accent);animation:tfx-rainbow 1.6s linear infinite;animation-delay:calc(var(--i,0)*-90ms)}
 @keyframes tfx-rainbow{to{filter:hue-rotate(360deg)}}
 .nilvn-ch.tfx-pop.on{animation:tfx-pop .35s cubic-bezier(.2,1.6,.4,1) both}
 @keyframes tfx-pop{from{transform:scale(0) rotate(-12deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
