@@ -318,7 +318,7 @@ const SPRITEANIM_COMMANDS: CommandSchema[] = [
 
 /** Engine compatibility every bundled runtime half declares (the platform they
  *  were written against; bumped with the plugin contract, not per release). */
-const ENGINE_RANGE = '>=0.18 <1'
+const ENGINE_RANGE = '>=0.19 <1'
 const EDITOR_RANGE = '>=0.15 <1'
 
 /** Built-in content plugins, shown in the editor's plugin panel. */

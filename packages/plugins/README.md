@@ -77,7 +77,7 @@ with `kind=character` (default) or `kind=sprite`.
 | `screenfx` | `[shake]` `[flash]` `[transout]` `[transin]` |
 | `charfx` | `[charfx id hop\|nod\|shake\|swing]` `[move id to=…]` |
 | `objectfx` | `[fade]` `[scale]` `[opacity]` `[visibility]` `[layer]` on any object |
-| `spriteanim` | `[sprite id sheet frames= fps=]` `[hidesprite id]` — sprite-sheet animation as a stage object; `onclick=` makes the sprite clickable (the engine runs those script commands, one per line), and a false `if=` takes it off the stage. |
+| `spriteanim` | `[sprite id sheet frames= fps=]` `[hidesprite id]` — sprite-sheet animation as a stage object; `onclick=` makes the sprite clickable (the engine runs those script commands, one per line), and it is drawn and clickable only while its `if=` holds. |
 | `choicefx` | Animated choice buttons (no markup) |
 | `voicefx` | Synthesized per-character typing blips at each actor's pitch (no markup) |
 | `animstudio` | Keyframe choreography commands NilVN Studio's timeline records (Studio-only: the encoding is not meant to be written by hand) |
@@ -123,7 +123,7 @@ All take `target=` and `kind=character\|sprite` (or `target=screen` for the came
 
 | Command | Parameters | Effect |
 |---|---|---|
-| `[sprite id sheet]` | `frames=1` `fps=12` `loop=true` `at=center` `height=30` `y=` `scale=` `rotation=` `fade=0.3` | Play a single-row sprite sheet as a frame loop. Frames are square: the sprite is drawn at `height` with a 1:1 aspect ratio, so a sheet of N frames is N·h × h pixels. `height` is a percentage of the stage height; `y` / `scale` / `rotation` seed the resting transform. The sprite becomes a transformable object (`sprite:<id>`) that every object effect can target. `onclick="…"` makes it clickable; a trailing `if=condition` that is false takes the sprite off the stage (as a false `[hotspot … if=]` leaves the region out), so `[sprite star … onclick="set seen = true" if=!seen]` retires a one-shot sprite once the scene re-runs. |
+| `[sprite id sheet]` | `frames=1` `fps=12` `loop=true` `at=center` `height=30` `y=` `scale=` `rotation=` `fade=0.3` | Play a single-row sprite sheet as a frame loop. Frames are square: the sprite is drawn at `height` with a 1:1 aspect ratio, so a sheet of N frames is N·h × h pixels. `height` is a percentage of the stage height; `y` / `scale` / `rotation` seed the resting transform. The sprite becomes a transformable object (`sprite:<id>`) that every object effect can target. `onclick="…"` makes it clickable; a trailing `if=condition` stays live, as a `[hotspot]`'s does — the engine re-evaluates it whenever a variable changes and the sprite is drawn and clickable only while it holds, so `[sprite star … onclick="set seen = true" if=!seen]` turns off after its own click (with an engine before 0.19, a false `if=` takes the sprite off the stage once, when the tag runs). |
 | `[hidesprite id]` | `fade=0.3` | Remove the sprite. |
 
 The `sprite` kind is declared with the engine's standard channel names
@@ -162,7 +162,9 @@ that keeps loops running across a save and load.
 unlocks the segment in the in-game menu's replay gallery; the studio emits these
 from its A–B replay panel. Declarations are read when their file is parsed, so
 in a multi-file work they all belong in the **entry** script — the end markers
-stay in the scenes they close.
+stay in the scenes they close. A gallery replay starts from the scene the player
+saw when they unlocked it, and leaves their persistent variables as they were
+(see the engine's `playReplay`).
 
 ## Exports
 
@@ -203,8 +205,7 @@ their own bundler or the CDN script (see the engine's
 pnpm dev           # the demo game on http://localhost:5180 (demo/)
 pnpm build         # dist/: ESM + .d.ts + the batteries IIFE
 pnpm typecheck     # tsc + scripts/check-boundary.mjs
-pnpm bundle demo/public         # pack a game directory into one double-clickable .html
-pnpm bundle demo/public --dir   # …or a deployable folder
+pnpm bundle demo/public   # nilvn pack: dist-pack/ — a folder, a .nvs zip, one .html
 pnpm gen:audio     # regenerate the demo's synthesized BGM / SFX
 ```
 

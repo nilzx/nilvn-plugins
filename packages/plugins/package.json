@@ -51,15 +51,15 @@
     "build:iife": "node --experimental-strip-types scripts/build-iife.ts dist/nilvn.iife.js",
     "build:demo": "vite build",
     "preview": "vite preview",
-    "bundle": "node scripts/bundle.mjs",
+    "bundle": "pnpm build:iife && nilvn pack --engine dist/nilvn.iife.js",
     "gen:audio": "node scripts/gen-audio.mjs",
     "typecheck": "tsc --noEmit && node scripts/check-boundary.mjs",
     "check:boundary": "node scripts/check-boundary.mjs",
     "prepack": "pnpm build"
   },
   "peerDependencies": {
-    "@nilvn/core": "^0.18.0",
-    "@nilvn/engine": "^0.18.0"
+    "@nilvn/core": "^0.19.0",
+    "@nilvn/engine": "^0.19.0"
   },
   "peerDependenciesMeta": {
     "@nilvn/core": {
@@ -67,12 +67,11 @@
     }
   },
   "devDependencies": {
-    "@nilvn/core": "^0.18.0",
-    "@nilvn/engine": "^0.18.0",
-    "@nilvn/plugin-sdk": "^0.18.0",
+    "@nilvn/core": "^0.19.0",
+    "@nilvn/engine": "^0.19.0",
+    "@nilvn/plugin-sdk": "^0.19.0",
     "@types/node": "^24.0.0",
     "esbuild": "^0.28.1",
-    "smol-toml": "^1.6.1",
     "typescript": "^5.9.0",
     "vite": "^7.0.0"
   }

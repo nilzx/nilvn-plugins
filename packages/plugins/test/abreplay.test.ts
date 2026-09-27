@@ -1,9 +1,10 @@
 // @vitest-environment jsdom
 // A–B replay runtime: [replaydef] registers at parse time, [replayend] fires the
 // unlock signal in normal play, playReplay runs a clean-slate session from the
-// start label and hands control back at the end marker.
+// start label (for a segment with no kept scene — each engine here has its own
+// store) and hands control back at the end marker.
 import { describe, it, expect, beforeAll } from 'vitest'
-import { createEngine, type Engine } from '@nilvn/engine'
+import { createEngine, MemorySaveStore, type Engine } from '@nilvn/engine'
 import { abreplay } from '../src/index'
 
 beforeAll(() => {
@@ -33,7 +34,7 @@ function freshEngine(): { engine: Engine; root: () => HTMLElement } {
   // The replay commands live in the abreplay plugin now; install it at
   // construction so the parse-time scan sees its handlers (the editor/exports
   // pass it via `use`, which start() covers with a re-scan).
-  const engine = createEngine({ container, textSpeed: 0, plugins: [abreplay] })
+  const engine = createEngine({ container, textSpeed: 0, plugins: [abreplay], saveStore: new MemorySaveStore() })
   engine.loadSource(SCRIPT)
   return { engine, root: () => container.querySelector<HTMLElement>('.nilvn-root')! }
 }

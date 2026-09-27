@@ -23,11 +23,15 @@ export const spriteanim: EnginePlugin = {
     // [sprite star @fx/sparkle.svg frames=8 fps=10 loop=true at=center height=30
     // onclick="jump star_scene" if=!seen_star] — `onclick` makes the sprite
     // clickable: the engine runs those script commands (one per line) on a click.
-    // A false `if=` (declared `ifFalse: 'handle'`) takes the sprite off the stage.
+    // `if=` (declared `ifFalse: 'handle'`) goes to the stage with the sprite: the
+    // engine re-evaluates it on every variable change and the sprite is drawn and
+    // clickable only while it holds (a one-shot `if=!seen` turns off after its click).
+    // An engine before 0.19 passes no `condExpr`: a false `if=` then takes the
+    // sprite off the stage once.
     async sprite(ctx) {
       const id = ctx.str(0)
       const sheet = ctx.str(1)
-      if (!ctx.cond) {
+      if (!ctx.cond && ctx.condExpr === undefined) {
         if (id) await ctx.plugin.stage?.hideSprite(id, ctx.num('fade', 0.3))
         return
       }
@@ -46,6 +50,7 @@ export const spriteanim: EnginePlugin = {
           scale: ctx.numOpt('scale'),
           rotation: ctx.numOpt('rotation'),
           onclick: ctx.str('onclick'),
+          if: ctx.condExpr,
         },
         ctx.num('fade', 0.3),
       )
