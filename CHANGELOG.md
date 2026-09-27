@@ -3,7 +3,9 @@
 Notable changes to `@nilvn/plugins` (tag `plugins-v*`). The package has its own
 version axis; each manifest declares the engine range it runs on.
 
-## Unreleased
+## 0.3.4 — 2026-09-28
+
+Requires `@nilvn/engine` ≥ 0.19 (every manifest's `engine` range).
 
 ### Removed
 
@@ -13,6 +15,10 @@ version axis; each manifest declares the engine range it runs on.
 
 - `abreplay`: on engine 0.19 a gallery replay starts from the scene the player saw when they unlocked it, and leaves their persistent variables as they were; the menu lists the segments as picture cards. The commands are unchanged.
 - `spriteanim`: `[sprite … if=]` stays live on an engine that passes `condExpr` (0.19 and later) — the engine re-evaluates the condition on every variable change, and the sprite is drawn and clickable only while it holds, so a one-shot sprite (`onclick="set seen = true" if=!seen`) turns off after its own click. On an older engine a false `if=` still takes the sprite off the stage once.
+
+### Fixed
+
+- `pnpm build:iife` (and so `pnpm bundle`) failed on a fresh checkout: the builder now creates the output folder. The Pages demo is built with `nilvn pack` as a directory package.
 
 ## 0.3.3 — 2026-09-24
 

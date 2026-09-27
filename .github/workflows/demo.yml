@@ -34,13 +34,13 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # The same bundler a game author uses: the game folder plus nilvn.js
-      # (engine + first-party plugins), served over http.
-      - run: pnpm --filter @nilvn/plugins bundle demo/public --dir --out site
+      # The packer a game author uses (nilvn pack), as a directory package:
+      # index.html, nilvn.js (engine + first-party plugins) and the game files.
+      - run: pnpm --filter @nilvn/plugins bundle demo/public --form dir --out site --name demo
 
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: packages/plugins/site
+          path: packages/plugins/site/demo
 
   deploy:
     needs: build

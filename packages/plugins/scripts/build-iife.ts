@@ -14,6 +14,7 @@
 // installed package outside the monorepo) together with the plugins.
 
 import { promises as fs } from 'node:fs'
+import { dirname } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { build as esbuild } from 'esbuild'
 
@@ -57,7 +58,9 @@ export async function buildEngineIifeCode(): Promise<string> {
 export async function writeEngineIife(dest: string): Promise<void> {
   const code = await buildEngineIifeCode()
   const prev = await fs.readFile(dest, 'utf8').catch(() => '')
-  if (prev !== code) await fs.writeFile(dest, code)
+  if (prev === code) return
+  await fs.mkdir(dirname(dest), { recursive: true })
+  await fs.writeFile(dest, code)
 }
 
 // CLI form: `node --experimental-strip-types build-iife.ts <dest>`.
